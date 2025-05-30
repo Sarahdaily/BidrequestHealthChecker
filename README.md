@@ -8,72 +8,73 @@ The **BidRequest HealthCheck** tool is a Python script for analyzing, filtering,
 ## Prerequisites
 Before using this script, make sure you have the following prerequisites:
 
-**Python**  : You need to have Python installed on your system. You can download it from the official Python website: [Python Downloads](https://www.python.org/downloads/)
-**leo.py**: You need to have access and have installed leo.py on your system. You can download it from the repository [leo.py documentation](https://github.com/dailymotion/leo-exchange/tree/master/tools/leo-py)
+- **Python 3.7+ is required.**  
+  You need to have Python installed on your system. You can download it from the official Python website: [Python Downloads](https://www.python.org/downloads/)
+- **leo.py must be installed and available in your PATH**   
+  You need to have access and have installed leo.py on your system. You can download it from the repository [leo.py documentation](https://github.com/dailymotion/leo-exchange/tree/master/tools/leo-py)
+- Make sure you have access to the clusters you want to query (VPN, credentials, etc.).
 
-## Installation
+Here’s a **complete, copy-paste-ready Wiki Installation section** focused only on installing the tool and its Python dependencies (not Python or leo.py).  
+This is suitable for a GitHub Wiki page or a `README.md`/`INSTALL.md` file.
 
-### 1. **Clone the Repository**
+---
+
+# Installation
+
+## 1. Clone the Repository
+
+First, clone the repository to your local machine:
 
 ```sh
 git clone https://github.com/your-org/bidRequestHealthCheck.git
 cd bidRequestHealthCheck
 ```
 
-### 2. **Install Python (if not already installed)**
+## 2. (Recommended) Create a Virtual Environment
 
-This tool requires **Python 3.7+**.  
-Check your version:
-
-```sh
-python3 --version
-```
-
-If you need to install Python, download it from [python.org](https://www.python.org/downloads/) or use your OS package manager.
-
-### 3. **(Optional) Create a Virtual Environment**
+It’s best practice to use a Python virtual environment to avoid dependency conflicts:
 
 ```sh
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 4. **Install Required Python Packages**
+## 3. Install Python Dependencies
 
-This tool uses only the Python standard library, but if you add dependencies, install them with:
+Install all required Python packages using the provided `requirements.txt` file:
 
 ```sh
 pip install -r requirements.txt
 ```
 
-*(If there is no `requirements.txt`, you can skip this step.)*
+If you do not have `pip` installed, you may need to install it first.
 
-### 5. **Install leo.py**
+## 4. (Optional) Check Your Installation
 
-This tool requires [`leo.py`](https://github.com/dailymotion/leo.py) to fetch bid requests.
-
-- Clone and install `leo.py` if not already available in your `$PATH`:
+You can check that the tool is installed and dependencies are available by running:
 
 ```sh
-git clone https://github.com/dailymotion/leo.py.git
-cd leo.py
-pip install .
+python3 bidrequesthealthcheck.py --help
 ```
 
-Or ensure `leo.py` is available as a command-line tool.
-
-### 6. **Check Permissions**
-
-Make sure you have access to the clusters you want to query (VPN, credentials, etc.).
+You should see the tool’s help message with available options.
 
 ---
 
-**You are now ready to use the tool!**  
-See the Usage section for example commands.
+## Notes
+
+
 
 ---
 
-Let me know if you want a requirements.txt template or further customization!
+## Next Steps
+
+- See the Usage section for example commands and advanced options.
+- For troubleshooting or more details, refer to the main documentation or contact the maintainers.
+
+---
+
+**You are now ready to use the BidRequest HealthCheck tool!**
 
 ---
 ## Features
