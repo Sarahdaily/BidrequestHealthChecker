@@ -14,9 +14,6 @@ Before using this script, make sure you have the following prerequisites:
   You need to have access and have installed leo.py on your system. You can download it from the repository [leo.py documentation](https://github.com/dailymotion/leo-exchange/tree/master/tools/leo-py)
 - Make sure you have access to the clusters you want to query (VPN, credentials, etc.).
 
-Here’s a **complete, copy-paste-ready Wiki Installation section** focused only on installing the tool and its Python dependencies (not Python or leo.py).  
-This is suitable for a GitHub Wiki page or a `README.md`/`INSTALL.md` file.
-
 ---
 
 # Installation
