@@ -141,7 +141,7 @@ python bidrequesthealthcheck.py --nbr 1000 --Bidder 35 --timeout 10m
 ## Notes
 
 - **Domain normalization:** Onsite/offsite checks are robust to whitespace and case.
-- **Filter mode** is always enabled if you use `--Bidder`, even if you don’t specify `--filterMode`.
+- **Filter mode** is always enabled if you use `--Bidder`,`--onsite true/false` even if you don’t specify `--filterMode`.
 - **imp.video.plcmt=1 percentage** is always shown, regardless of filters.
 - **Timeouts:** If your filters are too strict, you may hit the timeout before collecting enough requests.
 - **File output:** Output files are timestamped and named according to your filters for easy tracking.
@@ -158,7 +158,7 @@ python bidrequesthealthcheck.py --nbr 1000 --Bidder 35 --timeout 10m
 
 ## See Also
 
-- [leo.py documentation](https://github.com/dailymotion/leo.py) (for the underlying fetch command)
+- [leo.py documentation](https://github.com/dailymotion/leo-exchange/tree/master/tools/leo-py) (for the underlying fetch command)
 - [OpenRTB Specification](https://iabtechlab.com/standards/openrtb/)
 
 ---
