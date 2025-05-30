@@ -10,6 +10,31 @@ Before using this script, make sure you have the following prerequisites:
 
 **Python**  : You need to have Python installed on your system. You can download it from the official Python website: [Python Downloads](https://www.python.org/downloads/)
 
+## Installation
+1. Clone the Repository
+2. Install Python (if not already installed)
+This tool requires Python 3.7+.
+Check your version:
+
+If you need to install Python, download it from python.org or use your OS package manager.
+
+3. (Optional) Create a Virtual Environment
+4. Install Required Python Packages
+This tool uses only the Python standard library, but if you add dependencies, install them with:
+
+(If there is no requirements.txt, you can skip this step.)
+
+5. Install leo.py
+This tool requires leo.py to fetch bid requests.
+
+Clone and install leo.py if not already available in your $PATH:
+Or ensure leo.py is available as a command-line tool.
+
+6. Check Permissions
+Make sure you have access to the clusters you want to query (VPN, credentials, etc.).
+
+You are now ready to use the tool!
+
 ---
 ## Features
 
