@@ -1,13 +1,10 @@
 # BidrequestHealthChecker
 ---
 
-# BidRequest HealthCheck Tool
-
 ## Overview
 
 The **BidRequest HealthCheck** tool is a Python script for analyzing, filtering, and summarizing OpenRTB bid requests. It is designed for ad-tech engineers, QA, and data analysts who need to inspect, filter, and validate bid request data from Dailymotion’s exchange clusters.
 
----
 ## Prerequisites
 Before using this script, make sure you have the following prerequisites:
 
