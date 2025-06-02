@@ -27,15 +27,6 @@ git clone https://github.com/your-org/bidRequestHealthCheck.git
 cd bidRequestHealthCheck
 ```
 
-## 2. (Recommended) Create a Virtual Environment
-
-It’s best practice to use a Python virtual environment to avoid dependency conflicts:
-
-```sh
-python3 -m venv venv
-source venv/bin/activate
-```
-
 ## 3. Install Python Dependencies
 
 Install all required Python packages using the provided `requirements.txt` file:
