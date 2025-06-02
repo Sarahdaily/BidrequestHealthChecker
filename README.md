@@ -83,20 +83,20 @@ You should see the tool’s help message with available options.
 
 ## Command-Line Parameters
 
-| Parameter         | Description                                                                                          | Example                                      |
-|-------------------|------------------------------------------------------------------------------------------------------|----------------------------------------------|
-| `--nbr`           | Number of bid requests to fetch or match.                                                            | `--nbr 1000`                                 |
-| `--cluster`       | Cluster to fetch from.                                                                               | `--cluster FR`                               |
-| `--paramName`     | Parameter(s) to filter on (comma-separated, dot notation supported).                                 | `--paramName imp.video.plcmt,site.domain`    |
-| `--paramValue`    | Value(s) for the parameters above (comma-separated, order matters).                                  | `--paramValue 1,dailymotion.com`             |
-| `--requiredParam` | Only keep requests that have this parameter (dot notation).                                          | `--requiredParam imp.video.mimes`            |
-| `--Bidder`        | Filter by bidder name or ID. **Automatically enables filter mode.**                                  | `--Bidder 35` or `--Bidder "Magnite"`        |
-| `--onsite`        | Filter for onsite (`true`) or offsite (`false`) requests.                                            | `--onsite true`                              |
-| `--filterMode`    | Fetch until N requests match your filters (default if `--Bidder` is used).                           | `--filterMode`                               |
-| `--timeout`       | Timeout for fetching requests (e.g., `1m`, `30s`, default `5m`).                                     | `--timeout 2m`                               |
-| `--listParams`    | List all possible parameters you can filter on.                                                      | `--listParams`                               |
-| `--listClusters`  | List all available clusters.                                                                         | `--listClusters`                             |
-| `--listBidders`   | List all supported bidders.                                                                          | `--listBidders`                              |
+| Parameter           | Description                                                                                          | Example                                      |
+|---------------------|------------------------------------------------------------------------------------------------------|----------------------------------------------|
+| `--nbr`             | Number of bid requests to fetch or match.                                                            | `--nbr 1000`                                 |
+| `--cluster`         | Cluster to fetch from.                                                                               | `--cluster FR`                               |
+| `--paramName`       | Parameter(s) to filter on (comma-separated, dot notation supported).                                 | `--paramName imp.video.plcmt,site.domain`    |
+| `--paramValue`      | Value(s) for the parameters above (comma-separated, order matters).                                  | `--paramValue 1,dailymotion.com`             |
+| `--requiredParam`   | Only keep requests that have this parameter (dot notation).                                          | `--requiredParam imp.video.mimes`            |
+| `--Bidder`          | Filter by bidder name or ID. **Automatically enables filter mode.**                                  | `--Bidder 35` or `--Bidder "Magnite"`        |
+| `--onsite`          | Filter for onsite (`true`) or offsite (`false`) requests.                                            | `--onsite true`                              |
+| `--filterMode`      | Fetch until N requests match your filters (default if `--Bidder` is used).                           | `--filterMode`                               |
+| `--timeout`         | Timeout for fetching requests (e.g., `1m`, `30s`, default `5m`).                                     | `--timeout 2m`                               |
+| `--listParams`      | List all possible parameters you can filter on.                                                      | `--listParams`                               |
+| `--listClusters`    | List all available clusters.                                                                         | `--listClusters`                             |
+| `--listBidders`     | List all supported bidders.                                                                          | `--listBidders`                              |
 
 ---
 
