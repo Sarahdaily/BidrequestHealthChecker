@@ -23,7 +23,7 @@ Before using this script, make sure you have the following prerequisites:
 First, clone the repository to your local machine:
 
 ```sh
-git clone https://github.com/your-org/bidRequestHealthCheck.git
+git clone https://github.com/Sarahdaily/BidrequestHealthChecker
 cd bidRequestHealthCheck
 ```
 
