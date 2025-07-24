@@ -151,9 +151,9 @@ allPossibleParamList = [
 clusterUrlsMap = {
     "FR":     "https://exchange-prod-onprem-dc3.kube.dm.gg/vlog",
     "EU":     "https://exchange-prod-onprem-ix7.kube.dm.gg/vlog",
-    "USEAST": "https://exchange-prod-onprem-nyc.kube.dm.gg/vlog",
-    "APAC":   "https://exchange-prod-onprem-sg1.kube.dm.gg/vlog",
-    "USWEST": "https://exchange-prod-onprem-sv4.kube.dm.gg/vlog"
+    "USEAST": "https://exchange-prod-aws-us-east-2.k8s.dm.gg/vlog",
+    "APAC":   "https://exchange-prod-aws-ap-south-1.k8s.dm.gg/vlog",
+    "USWEST": "https://exchange-prod-aws-us-west-2.k8s.dm.gg/vlog"
 }
 
 def cluster(clr):
@@ -247,14 +247,14 @@ def main():
     parser.add_argument('--cluster', default="FR", help='Cluster to use')
     parser.add_argument('--paramName', default="", help='Param(s) name to filter on, comma separated')
     parser.add_argument('--paramValue', default="FR", help='Param value to filter on, comma separated')
-    parser.add_argument('--requiredParam', default="", help='Only keep requests that have this param (dot notation)')
     parser.add_argument('--listParams', action='store_true', help='Display all possible params')
     parser.add_argument('--listClusters', action='store_true', help='Display all clusters')
-    parser.add_argument('--Bidder', default="", help='Bidder name or ID to filter on')
+    parser.add_argument('--onsite', choices=['true', 'false'], help='Show stats for onsite (site.domain == dailymotion.com) or offsite')
+    # Accept both --Bidder and --bidder (case-insensitive)
+    parser.add_argument('--Bidder', '--bidder', default="", help='Bidder name or ID to filter on')
     parser.add_argument('--listBidders', action='store_true', help='Display all bidders')
     parser.add_argument('--filterMode', action='store_true', help='If set, fetch until N requests match filters')
     parser.add_argument('--timeout', default="5m", help='Timeout for fetching requests (e.g., 1m, 30s, default 5m)')
-    parser.add_argument('--onsite', choices=['true', 'false'], help='Show stats for onsite (site.domain == dailymotion.com) or offsite')
 
     args = parser.parse_args()
 
@@ -279,25 +279,42 @@ def main():
 
     bidder_id = None
     if args.Bidder:
+        # Accept any bidder ID or name, do not restrict to the static list
         if args.Bidder.isdigit():
             bidder_id = int(args.Bidder)
-            if bidder_id not in bidder_id_to_name:
-                print(f"Bidder ID {bidder_id} not found.")
-                exit(1)
         else:
-            if args.Bidder not in bidder_name_to_id:
-                print(f"Bidder name '{args.Bidder}' not found.")
-                exit(1)
-            bidder_id = bidder_name_to_id[args.Bidder]
+            bidder_id = args.Bidder  # Pass as string for leo.py to handle
 
-    paramNameSlice = args.paramName.split(",") if args.paramName else []
-    paramValueSlice = args.paramValue.split(",") if args.paramValue else []
+    # Lowercase all param names and values for case-insensitive matching
+    paramNameSlice = [k.lower() for k in args.paramName.split(",")] if args.paramName else []
+    paramValueSlice = [v.lower() for v in args.paramValue.split(",")] if args.paramValue else []
     paramsToSearchFor = dict(zip(paramNameSlice, paramValueSlice))
 
     timeout_seconds = parse_timeout(args.timeout)
     start_time = time.time()
 
     print("[leo.py] Fetching requests...")
+
+    def get_nested_value_case_insensitive(d, key_path):
+        keys = key_path.lower().split('.')
+        def extract(obj, keys):
+            if not keys:
+                return [obj]
+            key = keys[0]
+            rest = keys[1:]
+            results = []
+            if isinstance(obj, list):
+                for item in obj:
+                    results.extend(extract(item, keys))
+            elif isinstance(obj, dict):
+                # Find the key in obj that matches case-insensitively
+                for k in obj:
+                    if k.lower() == key:
+                        results.extend(extract(obj[k], rest))
+            return results
+        value = extract(d, keys)
+        return value if value else None
+
 
     if not args.filterMode:
         # Sample mode: fetch N, then filter
@@ -309,9 +326,6 @@ def main():
         bid_requests = cleanBidRequests(stdout)
         sampleFileName = f"bidRequestsSample_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
         createAndWriteFile(sampleFileName, '\n'.join(json.dumps(br) for br in bid_requests))
-
-        if args.requiredParam:
-            bid_requests = filter_bidrequests_with_param(bid_requests, args.requiredParam)
 
         filtered = []
         for br in bid_requests:
@@ -325,25 +339,32 @@ def main():
                     except ValueError:
                         continue
                 else:
-                    continue
+                    continue    
             match = True
             tmpEmptyParamsInBidRequest = []
             for k, v in paramsToSearchFor.items():
-                values = get_nested_value(br, k)
+                values = get_nested_value_case_insensitive(br, k)
+                def flatten(l):
+                    for el in l:
+                        if isinstance(el, list):
+                            yield from flatten(el)
+                        else:
+                            yield el
+                flat_values = list(flatten(values)) if values else []
                 wanted_values = [x.strip() for x in v.split(",")]
                 value_matched = False
                 for wanted in wanted_values:
-                    if wanted.lower() == "null":
-                        if not values or all(val in [None, "", [], {}] for val in values):
+                    if wanted == "null":
+                        if not flat_values or all(val in [None, "", [], {}] for val in flat_values):
                             value_matched = True
                             break
                     else:
-                        if values and any(str(val) == wanted for val in values):
+                        if flat_values and any(str(val).lower() == wanted for val in flat_values):
                             value_matched = True
                             break
                 if not value_matched:
                     match = False
-                if not values or all(val in [None, "", [], {}] for val in values):
+                if not flat_values or all(val in [None, "", [], {}] for val in flat_values):
                     tmpEmptyParamsInBidRequest.append(k)
             # --- ONSITE/OFFSITE FILTER ---
             if match and args.onsite:
@@ -381,8 +402,6 @@ def main():
             bid_requests = cleanBidRequests(stdout)
             total_fetched += len(bid_requests)
             all_fetched_requests.extend(bid_requests)
-            if args.requiredParam:
-                bid_requests = filter_bidrequests_with_param(bid_requests, args.requiredParam)
 
             filtered = []
             for br in bid_requests:
@@ -400,21 +419,28 @@ def main():
                 match = True
                 tmpEmptyParamsInBidRequest = []
                 for k, v in paramsToSearchFor.items():
-                    values = get_nested_value(br, k)
+                    values = get_nested_value_case_insensitive(br, k)
+                    def flatten(l):
+                        for el in l:
+                            if isinstance(el, list):
+                                yield from flatten(el)
+                            else:
+                                yield el
+                    flat_values = list(flatten(values)) if values else []
                     wanted_values = [x.strip() for x in v.split(",")]
                     value_matched = False
                     for wanted in wanted_values:
-                        if wanted.lower() == "null":
-                            if not values or all(val in [None, "", [], {}] for val in values):
+                        if wanted == "null":
+                            if not flat_values or all(val in [None, "", [], {}] for val in flat_values):
                                 value_matched = True
                                 break
                         else:
-                            if values and any(str(val) == wanted for val in values):
+                            if flat_values and any(str(val).lower() == wanted for val in flat_values):
                                 value_matched = True
                                 break
                     if not value_matched:
                         match = False
-                    if not values or all(val in [None, "", [], {}] for val in values):
+                    if not flat_values or all(val in [None, "", [], {}] for val in flat_values):
                         tmpEmptyParamsInBidRequest.append(k)
                 # --- ONSITE/OFFSITE FILTER ---
                 if match and args.onsite:
@@ -436,6 +462,8 @@ def main():
             print(f"\r[Progress] {len(collected_requests)}/{target_nbr} matches ({total_fetched} fetched)", end='', flush=True)
 
         print()
+        if 'collected_requests' not in locals():
+            collected_requests = []
         bidRequestMatchingUserInput = [json.dumps(br) for br in collected_requests]
         totalBidRequestsFromUserFiltering = len(collected_requests)
         totalBidRequests = total_fetched
