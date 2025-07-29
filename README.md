@@ -80,7 +80,7 @@ You should see the tool’s help message with available options.
 | `--cluster`         | Cluster to fetch from.                                                                               | `--cluster FR`                               |
 | `--paramName`       | Parameter(s) to filter on (comma-separated, dot notation supported).                                 | `--paramName imp.video.plcmt,site.domain`    |
 | `--paramValue`      | Value(s) for the parameters above (comma-separated, order matters).                                  | `--paramValue 1,dailymotion.com`             |
-| `--Bidder`          | Filter by bidder name or ID. **Automatically enables filter mode.**                                  | `--Bidder 35` or `--Bidder "Magnite"`        |
+| `--Bidder`          | Filter by bidder name or ID. **Automatically enables filter mode.**                                  | `--bidder 35` or `--Bidder "Magnite"`        |
 | `--onsite`          | Filter for onsite (`true`) or offsite (`false`) requests.                                            | `--onsite true`                              |
 | `--filterMode`      | Fetch until N requests match your filters (default if `--Bidder` is used).                           | `--filterMode`                               |
 | `--timeout`         | Timeout for fetching requests (e.g., `1m`, `30s`, default `5m`).                                     | `--timeout 2m`                               |
@@ -91,7 +91,7 @@ You should see the tool’s help message with available options.
 ---
 
 ## Filtering Logic
-- **Bidder filtering**: If `--Bidder` is used, only requests for that bidder are collected. Filter mode is enabled automatically.
+- **Bidder filtering**: If `--bidder` is used, only requests for that bidder are collected. Filter mode is enabled automatically.
 - **Onsite/offsite filtering**: If `--onsite` is set, only matching requests are collected.
 - **Parameter filtering**: Only requests matching all specified parameters/values are collected.
 - **Multiple parameters/values**: You can filter on several parameters at once, e.g.:
