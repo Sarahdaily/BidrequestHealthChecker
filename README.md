@@ -59,7 +59,7 @@ You should see the tool’s help message with available options.
 ## Features
 
 - **Fetch bid requests** from various Dailymotion clusters using `leo.py`.
-- **Flexible filtering** by parameter name/value, required parameters, and bidder.
+- **Flexible filtering** by parameter name/value, and bidder.
 - **Onsite/offsite filtering** (`site.domain == dailymotion.com` or not).
 - **Filter mode**: fetch until N requests match your criteria.
 - **Summary statistics**: always shows the percentage of requests with `imp.video.plcmt=1`, as well as onsite/offsite splits.
@@ -68,7 +68,7 @@ You should see the tool’s help message with available options.
 - **Lists** all possible params, clusters, and bidders.
 - **Supports multiple parameters and values** for advanced filtering.
 - **Timeout control** for long-running fetches.
-- **Automatic filter mode** when using `--Bidder`.
+- **Automatic filter mode** when using `--bidder` and `--onsite`.
 
 ---
 
