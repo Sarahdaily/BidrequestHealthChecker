@@ -27,17 +27,8 @@ git clone https://github.com/Sarahdaily/BidrequestHealthChecker
 cd bidRequestHealthCheck
 ```
 
-## 3. Install Python Dependencies
 
-Install all required Python packages using the provided `requirements.txt` file:
-
-```sh
-pip install -r requirements.txt
-```
-
-If you do not have `pip` installed, you may need to install it first.
-
-## 4. (Optional) Check Your Installation
+## 2. (Optional) Check Your Installation
 
 You can check that the tool is installed and dependencies are available by running:
 
